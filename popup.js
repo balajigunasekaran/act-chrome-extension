@@ -57,7 +57,7 @@ packageHandler.onreadystatechange = function () {
     div.innerHTML = this.responseText;
 
     t = div
-        .querySelector(".moduletable tr:nth-child(3) td:nth-child(3)")
+        .querySelector(".moduletable tr:nth-child(3) td")
         .textContent
         .trim();
 
@@ -65,34 +65,17 @@ packageHandler.onreadystatechange = function () {
         return (f.name.toUpperCase() === t);
     })[0];
 
-    return render();
-};
-packageHandler.send();
-
-// Find and update current usage
-usageHandler = new XMLHttpRequest();
-usageHandler.open("GET", "http://portal.acttv.in/index.php/myusage", true);
-usageHandler.onreadystatechange = function () {
-    var div, t;
-
-    if (this.readyState != 4) {
-        return this;
-    }
-
-    if (this.status !== 200) {
-        return onError("Something went wrong");
-    }
 
     div = document.createElement("div");
     div.innerHTML = this.responseText;
 
     t = div
-        .querySelector("#total td:nth-child(2)")
+        .querySelector(".moduletable tr:nth-child(4) td")
         .textContent
-        .replace("GB", '');
+        .split(" ")[0];
 
     usage = parseFloat(t, 10);
 
     return render();
 };
-usageHandler.send();
+packageHandler.send();
