@@ -1,17 +1,5 @@
-var packages = [
-    {'name': 'ACT Freedom', 'data': 20},
-    {'name': 'ACT Liberty', 'data': 30},
-    {'name': 'ACT Privilege', 'data': 40},
-    {'name': 'ACT Abundant', 'data': 50},
-    {'name': 'ACT Indulge', 'data': 60},
-    {'name': 'ACT Extravagant', 'data': 100},
-    {'name': 'ACT Force', 'data': 200},
-    {'name': 'ACT BB HO Value', 'data': 250},
-    {'name': 'ACT BB HO Extra', 'data': 350}
-],
-    usage, // Total usage, in GigaBytes
+var usage, // Total usage, in GigaBytes
     package, // Users's package -> one among the list
-
     usageHandler,
     packageHandler,
     render,
@@ -56,25 +44,20 @@ packageHandler.onreadystatechange = function () {
     div = document.createElement("div");
     div.innerHTML = this.responseText;
 
-    t = div
+    var packageName = div
         .querySelector(".moduletable tr:nth-child(3) td")
         .textContent
         .trim();
 
-    package = packages.filter(function (f) {
-        return (f.name.toUpperCase() === t);
-    })[0];
-
-
-    div = document.createElement("div");
-    div.innerHTML = this.responseText;
-
-    t = div
+    var usageText = div
         .querySelector(".moduletable tr:nth-child(4) td")
-        .textContent
-        .split(" ")[0];
+        .textContent;
 
-    usage = parseFloat(t, 10);
+    var usageSplit = usageText.split(/\s+/);
+
+    usage = parseFloat(usageSplit[0], 10);
+
+    package = { 'name': packageName, 'data': usageSplit[3] }
 
     return render();
 };
